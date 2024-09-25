@@ -29,7 +29,7 @@ export function MainPage() {
                 {!isLoading && allPokemons.length && 
                     <div className='pokemons-list'>
                        {allPokemons.map(pokemon => (
-                        <PokemonCard pokeImage={pokemon.image} pokeName={pokemon.name} />
+                        <PokemonCard pokeUrl={pokemon.url} pokeName={pokemon.name} />
                        ))}
                     </div>
                 }
