@@ -3,8 +3,20 @@
     margin: auto;
     padding: 15px;
 
-    border: 2px solid var(--primary-blue);
+    border: 2px solid var(--secondary-blue);
     border-radius: 10px;
+    
+    background: rgb(34,193,195);
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(40,116,255,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.15) 3.5px 3.5px 4.6px;
 
     text-align: center;
+    text-transform: capitalize;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+
+        color: var(--primary-yellow);
+        width: 155px;
+    }
 }

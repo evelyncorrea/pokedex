@@ -3,22 +3,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 20px;
 
-    height: 45px;
+    .input-section {
+        .radio-inputs {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 5px;
+        }
 
-    .search-bar-input {
-        width: 500px;
-        padding: 5px;
-        border-radius: 4px;
-        border: 1px solid black;
+        .search-bar-input {
+            width: 500px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-blue);
+        }
+
+        .search-bar-button {
+            border: 2px solid var(--primary-blue);
+            border-radius: 10px;
+            margin-left: 5px;
+            padding: 11px;
+    
+            background-color: var(--primary-yellow);
+    
+            &:hover {
+                color: white;
+                transition: all 0.1s ease-out;
+                border-color: var(--secondary-blue);
+            }
+        }
     }
 
-    .search-bar-button {
-        margin-left: 5px;
-        border: 2px solid var(--primary-blue);
-        border-radius: 10px;
-        padding: 6px;
-
-        background-color: var(--primary-yellow);
-    }
 }

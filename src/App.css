@@ -1,6 +1,9 @@
 .App {
-    margin: 2.5rem;
+    padding: 2.5rem;
+    background-image: url('/public/container_bg.png');
 
     --primary-blue: #2874FF;
+    --secondary-blue : #17285E;
     --primary-yellow: #FFCD02;
+    --secondary-yellow: #C8A102;
 }
