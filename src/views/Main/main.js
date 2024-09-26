@@ -1,39 +1,24 @@
-import { useEffect, useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { PokemonCard } from './components/PokemonCard';
 import './main.css';
-import { getPokemons } from '../../api/poke-api';
+import usePokemon from '../../contexts/pokemons';
 
 export function MainPage() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [allPokemons, setAllPokemons] = useState([]);
-
-    useEffect(() => {
-        setIsLoading(true);
-
-        async function getPokemonData() {
-            await getPokemons().then(({ results }) => {
-                setAllPokemons(results);
-                setIsLoading(false);
-            })
-        }
-
-        getPokemonData();
-    }, [])
+    const { pokemons, isLoading } = usePokemon();
 
     return (
         <div className='main-page-wrapper'>
             <SearchBar />
             <div className='main-page-content'>
                 {isLoading && <div>Loading...</div>}
-                {!isLoading && allPokemons.length && 
+                {!isLoading && pokemons?.length > 0 && 
                     <div className='pokemons-list'>
-                       {allPokemons.map(pokemon => (
-                        <PokemonCard pokeUrl={pokemon.url} pokeName={pokemon.name} />
-                       ))}
+                        {pokemons.map(pokemon => (
+                            <PokemonCard key={pokemon.name} pokeUrl={pokemon.url} pokeName={pokemon.name} />
+                        ))}
                     </div>
                 }
-                {!isLoading && allPokemons.length === 0 &&
+                {!isLoading && pokemons?.length === 0 &&
                     <div className='no-pokemon-found'>
                         Nenhum pokémon foi encontrado!
                     </div>

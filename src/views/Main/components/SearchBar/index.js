@@ -1,18 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './SearchBar.css';
+import usePokemon from '../../../../contexts/pokemons';
 
 const SEARCH_TYPES = {
     NAME_OR_ID: 'name/id',
     TYPE: 'type',
 }
 
-export function SearchBar({ callback }) {
+export function SearchBar() {
+    const { fetchAllPokemons, fetchPokemonByNameOrId, fetchPokemonByType } = usePokemon();
     const [searchInput, setSearchInput] = useState('');
     const [searchType, setSearchType] = useState('name/id');
     const [placeholder, setPlaceholder] = useState('name or number');
 
+    useEffect(() => {
+        fetchAllPokemons();
+    }, []);
+
     const search = () => {
-        console.log({ searchInput, searchType });
+        if(searchInput !== '') {
+            if(searchType === SEARCH_TYPES.NAME_OR_ID) return fetchPokemonByNameOrId(searchInput)
+            if(searchType === SEARCH_TYPES.TYPE) return fetchPokemonByType(searchInput)
+        }
+
+        return fetchAllPokemons()
     }
 
     const changeSearchType = (e) => {
@@ -37,7 +48,7 @@ export function SearchBar({ callback }) {
                         checked={searchType === SEARCH_TYPES.NAME_OR_ID}
                         onChange={changeSearchType}
                     />
-                    <label for="name-id">Name/ID</label>
+                    <label htmlFor="name-id">Name/ID</label>
                     <input 
                         type="radio" 
                         id="type" 
@@ -46,7 +57,7 @@ export function SearchBar({ callback }) {
                         checked={searchType === SEARCH_TYPES.TYPE}
                         onChange={changeSearchType}
                     />
-                    <label for="type">Type</label>
+                    <label htmlFor="type">Type</label>
                 </div>
                 <input 
                     className='search-bar-input'
@@ -54,7 +65,12 @@ export function SearchBar({ callback }) {
                     placeholder={`Insert the ${placeholder} of the pokemon you want to search for`}
                     onChange={el => setSearchInput(el.target.value)}
                 />
-                <button className='search-bar-button' onClick={search}>Search </button>
+                <button 
+                    className='search-bar-button'
+                    onClick={search}
+                >
+                    Search 
+                </button>
             </div>
         </div>
     )

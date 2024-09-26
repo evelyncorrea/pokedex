@@ -1,5 +1,6 @@
 .App {
     padding: 2.5rem;
+    min-height: 95vh;
     background-image: url('/public/container_bg.png');
 
     --primary-blue: #2874FF;
