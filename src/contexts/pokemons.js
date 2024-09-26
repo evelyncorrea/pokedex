@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import { getAllPokemons, getPokemonByNameOrId, getPokemonByType } from "../api/poke-api";
+import { pokeApiBaseURL } from "../api/api-clients";
 
 const initialState = {
     isLoading: true,
@@ -27,7 +28,7 @@ const SEARCH_TYPES = {
     TYPE: 'type'
 }
 
-export const PokemonContext = createContext(initialState);
+const PokemonContext = createContext(initialState);
 
 const PokemonReducer = (state, action) => {
     const { type, payload } = action;
@@ -105,7 +106,15 @@ export const PokemonProvider = ({ children }) => {
             return dispatch({ type: TYPES.UPDATE_DATA, payload: { data: [], totalResults: 0 }});
         }
 
-        dispatch({ type: TYPES.UPDATE_DATA, payload: { data: [data], totalResults: 1 }});
+        dispatch({ 
+            type: TYPES.UPDATE_DATA, 
+            payload: { 
+                data: [{
+                    name: data.name,
+                    url: `${pokeApiBaseURL}/pokemon/${data.id}`
+                }], 
+                totalResults: 1 
+            }});
     }
 
     const fetchPokemonByType = async (input) => {
