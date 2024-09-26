@@ -13,24 +13,23 @@
         }
 
         .search-bar-input {
-            width: 500px;
+            width: 550px;
             padding: 10px;
             border-radius: 10px;
             border: 2px solid var(--primary-blue);
         }
 
         .search-bar-button {
-            border: 2px solid var(--primary-blue);
+            border: none;
             border-radius: 10px;
             margin-left: 5px;
-            padding: 11px;
+            padding: 12px;
     
             background-color: var(--primary-yellow);
     
             &:hover {
                 color: white;
                 transition: all 0.1s ease-out;
-                border-color: var(--secondary-blue);
             }
         }
     }
