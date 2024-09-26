@@ -15,8 +15,8 @@ export async function getPokemonByNameOrId({ input }) {
         .catch(error => ({ error }));
 }
 
-export async function getPokemonByType({ input, offset = 0, limit = 20 }) {
-    return await pokeApiClient.get(`/type/${input}?limit=${limit}&offset=${offset}`)
+export async function getPokemonByType({ input }) {
+    return await pokeApiClient.get(`/type/${input}`)
         .then(result => result.data)
         .catch(error => ({ error }));
 }

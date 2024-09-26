@@ -8,9 +8,9 @@ const SEARCH_TYPES = {
 }
 
 export function SearchBar() {
-    const { fetchAllPokemons, fetchPokemonByNameOrId, fetchPokemonByType } = usePokemon();
-    const [searchInput, setSearchInput] = useState('');
+    const { fetchAllPokemons, fetchPokemonByNameOrId, fetchPokemonByType, setSearchData, clearPagination } = usePokemon();
     const [searchType, setSearchType] = useState('name/id');
+    const [searchInput, setSearchInput] = useState('');
     const [placeholder, setPlaceholder] = useState('name or number');
 
     useEffect(() => {
@@ -18,7 +18,11 @@ export function SearchBar() {
     }, []);
 
     const search = () => {
+        clearPagination();
+        
         if(searchInput !== '') {
+            setSearchData(searchType, searchInput);
+
             if(searchType === SEARCH_TYPES.NAME_OR_ID) return fetchPokemonByNameOrId(searchInput)
             if(searchType === SEARCH_TYPES.TYPE) return fetchPokemonByType(searchInput)
         }

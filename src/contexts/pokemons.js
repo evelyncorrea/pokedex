@@ -4,7 +4,8 @@ import { getAllPokemons, getPokemonByNameOrId, getPokemonByType } from "../api/p
 const initialState = {
     isLoading: true,
     pokemons: [],
-    currentPage: 0,
+    allPokemons: [],
+    currentPage: 1,
     totalPages: 1,
     totalResults: 0,
     offset: 0,
@@ -45,6 +46,7 @@ const PokemonReducer = (state, action) => {
             ...state,
             isLoading: false,
             pokemons: payload.data,
+            allPokemons: payload?.fullData || [],
             totalResults: payload.totalResults,
             totalPages
         }
@@ -75,11 +77,18 @@ const PokemonReducer = (state, action) => {
 export const PokemonProvider = ({ children }) => {
     const [state, dispatch] = useReducer(PokemonReducer, initialState);
 
-    const fetchAllPokemons = async (offset, limit) => {
-        const data = await getAllPokemons({ offset, limit });
+    const setSearchData = (searchType, searchInput) => {
+        dispatch({ type: TYPES.CHANGE_SEARCH, payload: { type: searchType, input: searchInput }});
+    }
 
-        dispatch({ type: TYPES.CHANGE_SEARCH, payload: { type: SEARCH_TYPES.ALL, input: '' }});
-        
+    const clearPagination = () => {
+        dispatch({ type: TYPES.CHANGE_PAGE, payload: { page: 1 }})
+    }
+
+    const fetchAllPokemons = async (offset) => {
+        const data = await getAllPokemons({ offset, limit: state.limit });
+        console.log('called fetchAllPokemons', {offset: state.offset, limit: state.limit })
+
         if(data?.error) {
             console.error(data.error)
             return dispatch({ type: TYPES.UPDATE_DATA, payload: { data: [], totalResults: 0 }});
@@ -91,8 +100,6 @@ export const PokemonProvider = ({ children }) => {
     const fetchPokemonByNameOrId = async (input) => {
         const data = await getPokemonByNameOrId({ input });
 
-        dispatch({ type: TYPES.CHANGE_SEARCH, payload: { type: SEARCH_TYPES.NAME_ID, input }});
-        
         if(data?.error) {
             console.error(data.error)
             return dispatch({ type: TYPES.UPDATE_DATA, payload: { data: [], totalResults: 0 }});
@@ -104,8 +111,6 @@ export const PokemonProvider = ({ children }) => {
     const fetchPokemonByType = async (input) => {
         const data = await getPokemonByType({ input });
 
-        dispatch({ type: TYPES.CHANGE_SEARCH, payload: { type: SEARCH_TYPES.TYPE, input }});
-
         if(data?.error) {
             console.error(data.error)
             return dispatch({ type: TYPES.UPDATE_DATA, payload: { data: [] }});
@@ -113,21 +118,52 @@ export const PokemonProvider = ({ children }) => {
 
         const parsedData = data.pokemon.map(mon => mon.pokemon);
 
+        if(parsedData.length > state.limit) {
+            return dispatch({ 
+                type: TYPES.UPDATE_DATA, 
+                payload: { 
+                    data: parsedData.slice(0, state.limit), 
+                    fullData: parsedData,
+                    totalResults: parsedData.length
+                }
+            });
+        }
+
         dispatch({ type: TYPES.UPDATE_DATA, payload: { data: parsedData, totalResults: data.count }});
     }
 
     const paginate = async (paginationType) => {
         let newPage = state.currentPage; 
+        console.log('called paginate');
 
-        if(paginationType === 'previous' && state.currentPage > 0) {
+        if(paginationType === 'previous') {
             newPage -= 1;
-        } else if(paginationType === 'next' && state.currentPage < state.totalResults) {
+        } else if(paginationType === 'next') {
             newPage += 1;
+            console.log('called pagination next');
         }
         
         dispatch({ type: TYPES.CHANGE_PAGE, payload: { page: newPage }})
 
-        if(state.searchType === SEARCH_TYPES.ALL) return await fetchAllPokemons()
+        if(state.allPokemons.length > state.limit) {
+            const sliceStart = paginationType === 'previous' 
+                ? state.offset - state.limit 
+                : state.offset + state.limit;
+
+            const sliceEnd = paginationType === 'previous' 
+                ? state.offset 
+                : state.offset + (state.limit * 2);
+
+            return dispatch({ 
+                type: TYPES.UPDATE_DATA, 
+                payload: {
+                data: state.allPokemons.slice(sliceStart, sliceEnd),
+                fullData: state.allPokemons,
+                totalResults: state.allPokemons.length
+            }})
+        }
+
+        if(state.searchType === SEARCH_TYPES.ALL) return await fetchAllPokemons(state.offset + state.limit)
         if(state.searchType === SEARCH_TYPES.NAME_ID) return await fetchPokemonByNameOrId(state.searchInput)
         if(state.searchType === SEARCH_TYPES.TYPE) return await fetchPokemonByType(state.searchInput)
     }
@@ -137,6 +173,8 @@ export const PokemonProvider = ({ children }) => {
         fetchAllPokemons,
         fetchPokemonByNameOrId,
         fetchPokemonByType,
+        setSearchData,
+        clearPagination,
         paginate
     }
 

@@ -1,4 +1,28 @@
 .pagination-wrapper {
   width: fit-content;
   margin: auto;
+
+  display: flex;
+  gap: 10px;
+
+  .previous-button {
+    transform: scaleX(-1);
+  }
+
+  .previous-button, .next-button {
+    background: none;
+    border: none;
+
+    &:hover {
+      img {
+        transition: all 0.1s ease-in-out;
+        filter: invert(0.25);
+      }
+    }
+
+    &:disabled {
+      pointer-events: none;
+      filter: invert(50%);
+    }
+  }
 }
