@@ -12,6 +12,8 @@
     text-align: center;
     text-transform: capitalize;
 
+    cursor: pointer;
+
     &:hover {
         transition: all 0.2s ease-in-out;
 

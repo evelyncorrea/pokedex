@@ -3,17 +3,60 @@
 
     .details-page-content {
         width: 70%;
+        height: 450px;
         margin: auto;
         
         display: flex;
-        gap: 50px;
-        
+        gap: 35px;
+
         box-shadow: rgba(0, 0, 0, 0.15) 3.5px 3.5px 4.6px;
-        background-color: whitesmoke;
+        border-radius: 25px;
+        background-color: #bcbcbc;
         
         .pokemon-sprites {
-            padding: 50px;
-            margin: auto;
+            padding: 35px;
+            margin: 50px;
+            height: auto;
+            width: 40%;
+
+            border-radius: 25px;
+            text-align: center;
+            
+            box-shadow: rgba(0, 0, 0, 0.15) 3.5px 3.5px 4.6px;
+
+            .pokemon-sprite {
+                margin-bottom: 20px;
+                height: 65%;
+                border-radius: 25px;
+                
+                .sprite {
+                    border-radius: 15px;
+                    border: 3px solid black;
+
+                    &.default {
+                        border-color: black;
+                        background-color: beige;
+                    }
+
+                    &.shiny {
+                        border-color: gold;
+                        background-color: seashell;
+                        mask-image: linear-gradient(-75deg, rgba(0,0,0,.8) 30%, #000 50%, rgba(0,0,0,.8) 70%);
+                        mask-size: 200%;
+                        animation: shine 2s infinite;
+                    }
+
+                }
+
+            }
+
+            .choose-sprite {                
+                .sprite-toggle {
+                    display: flex;
+                    gap: 5px;
+                    justify-content: center;
+                }
+            }
         }
         
         .pokemon-information {
@@ -32,9 +75,10 @@
                     border-radius: 10px;
                     padding: 5px 10px;
 
-                    box-shadow: rgba(0, 0, 0, 0.15) 1.5px 1.5px 2.6px;
+                    box-shadow: rgba(0, 0, 0, 0.25) 1.5px 1.5px 2.6px;
                     color: aliceblue;
                     text-transform: capitalize;
+                    cursor: pointer;
                     
                     &:hover {
                         transition: all 0.2s ease-in;
@@ -52,5 +96,15 @@
                 }
             }
         }
+    }
+}
+
+@keyframes shine {
+    from {
+        mask-position: 150%;
+    }
+    
+    to {
+        mask-position: -50%;
     }
 }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import usePokemonDetails from '../../contexts/pokemon-details';
 import { useNavigate, useParams } from 'react-router-dom';
 import './details.css';
@@ -8,9 +8,28 @@ export function DetailsPage() {
     const { id } = useParams();
     const { isLoading, pokemonData, fetchPokemonData } = usePokemonDetails();
 
+    const [showDefaultSprite, setShowDefaultSprite] = useState(true);
+    const [firstType, setFirstType] = useState('');
+    
+    const { 
+        name,
+        types,
+        stats,
+        id: pokemonId,
+        sprites: { front_default, front_shiny }
+    } = pokemonData;
+
     useEffect(() => {
         fetchPokemonData(id);
     }, [])
+
+    useEffect(() => {
+        setFirstType(pokemonData.types[0]?.type?.name);
+    }, [pokemonData.types]);
+
+    const toggleSprite = () => {
+        setShowDefaultSprite(curr => !curr);
+    }
 
     const customColor = (type) => {
         const availableColors = {
@@ -49,15 +68,43 @@ export function DetailsPage() {
         <div className='details-page-wrapper'>
             {isLoading && <div>Loading...</div>}
             {!isLoading && <div className='details-page-content'>
-                <div className='pokemon-sprites'>
-                    <img src={pokemonData.sprites.front_default} alt='sprite pokemon default' width='125px'/>
-                    <img src={pokemonData.sprites.front_shiny} alt='sprite pokemon shiny' width='125px' />
+                <div className='pokemon-sprites' style={{ backgroundColor: customColor(firstType) }}>
+                    <div className='pokemon-sprite'>
+                        <img 
+                            src={showDefaultSprite ? front_default : front_shiny} 
+                            alt={`sprite pokemon ${showDefaultSprite ? 'default' : 'shiny'}`}
+                            className={showDefaultSprite ? 'sprite default' : 'sprite shiny'}
+                            width='125px'
+                        />
+                    </div>
+                    <div className='choose-sprite'>
+                        <h3>Sprite Type</h3>
+                        <div className='sprite-toggle'>
+                            <input 
+                                id='default' 
+                                type='radio'
+                                name='sprite'
+                                checked={showDefaultSprite}
+                                onChange={toggleSprite} 
+                            />
+                            <label htmlFor='default'>Default</label>
+                            
+                            <input 
+                                id='shiny' 
+                                name='sprite' 
+                                type='radio'
+                                checked={!showDefaultSprite}
+                                onChange={toggleSprite} 
+                            />
+                            <label htmlFor='shiny'>Shiny</label>
+                        </div>
+                    </div>
                 </div>
                 <div className='pokemon-information'>
-                    <h1>#{pokemonData.id}. {pokemonData.name}</h1>
+                    <h1>#{pokemonId}. {name}</h1>
 
                     <div className='pokemon-types'>
-                        {pokemonData.types.map(({ type }) => (
+                        {types.map(({ type }) => (
                             <p 
                                 className='type-tag' 
                                 style={{ backgroundColor: customColor(type.name) }}
@@ -69,7 +116,7 @@ export function DetailsPage() {
                     </div>
 
                     <div className='pokemon-stats'>
-                        {pokemonData.stats.map(stat => 
+                        {stats.map(stat => 
                            <p className='stat-tag'>{`${normalizeName(stat.stat.name)}: ${stat.base_stat} `}</p>
                         )}
                     </div>
