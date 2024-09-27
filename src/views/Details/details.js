@@ -103,22 +103,32 @@ export function DetailsPage() {
                 <div className='pokemon-information'>
                     <h1>#{pokemonId}. {name}</h1>
 
-                    <div className='pokemon-types'>
-                        {types.map(({ type }) => (
-                            <p 
-                                className='type-tag' 
-                                style={{ backgroundColor: customColor(type.name) }}
-                                onClick={() => redirectToTypeSearch(type.name)}
-                            >
-                                {type.name}
-                            </p>
-                        ))}
+                    <div className='pokemon-types-wrapper'>
+                        <h3>Types</h3>
+                        <div className='pokemon-types'>
+                            {types.map(({ type }, index) => (
+                                <p 
+                                    key={index}
+                                    className='type-tag' 
+                                    style={{ backgroundColor: customColor(type.name) }}
+                                    onClick={() => redirectToTypeSearch(type.name)}
+                                >
+                                    {type.name}
+                                </p>
+                            ))}
+                        </div>
                     </div>
 
-                    <div className='pokemon-stats'>
-                        {stats.map(stat => 
-                           <p className='stat-tag'>{`${normalizeName(stat.stat.name)}: ${stat.base_stat} `}</p>
+                    <div className='pokemon-stats-wrapper'>
+                        <h3>Stats</h3>
+                        <div className='pokemon-stats'>
+                        {stats.map((stat, index) => 
+                            <p className='stat-tag' key={index}>
+                                <b>{`${normalizeName(stat.stat.name)}:`}</b><br/>
+                                <span>{stat.base_stat}</span>
+                            </p>
                         )}
+                        </div>
                     </div>
                 </div>
             </div>}

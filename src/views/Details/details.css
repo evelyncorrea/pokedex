@@ -3,11 +3,11 @@
 
     .details-page-content {
         width: 70%;
-        height: 450px;
+        min-height: 450px;
         margin: auto;
         
         display: flex;
-        gap: 35px;
+        gap: 15px;
 
         box-shadow: rgba(0, 0, 0, 0.15) 3.5px 3.5px 4.6px;
         border-radius: 25px;
@@ -17,7 +17,7 @@
             padding: 35px;
             margin: 50px;
             height: auto;
-            width: 40%;
+            width: 30%;
 
             border-radius: 25px;
             text-align: center;
@@ -60,39 +60,61 @@
         }
         
         .pokemon-information {
-            padding: 50px;
+            margin-right: 35px;
+            padding: 25px;
+            width: 70%;
 
             h1 {
                 text-transform: capitalize;
                 font-weight: 500;
             }
 
-            .pokemon-types {
-                display: flex;
-                gap: 10px;
+            h3 {
+                margin-bottom: 5px;
+            }
 
-                .type-tag {
-                    border-radius: 10px;
-                    padding: 5px 10px;
-
-                    box-shadow: rgba(0, 0, 0, 0.25) 1.5px 1.5px 2.6px;
-                    color: aliceblue;
-                    text-transform: capitalize;
-                    cursor: pointer;
-                    
-                    &:hover {
-                        transition: all 0.2s ease-in;
-                        box-shadow: rgba(0, 0, 0, 0.5) 1.5px 1.5px 2.6px;
+            .pokemon-types-wrapper {
+                .pokemon-types {
+                    display: flex;
+                    gap: 10px;
+    
+                    .type-tag {
+                        border-radius: 10px;
+                        padding: 5px 10px;
+    
+                        box-shadow: rgba(0, 0, 0, 0.25) 1.5px 1.5px 2.6px;
+                        color: aliceblue;
+                        text-transform: capitalize;
+                        cursor: pointer;
+                        
+                        &:hover {
+                            transition: all 0.2s ease-in;
+                            box-shadow: rgba(0, 0, 0, 0.5) 1.5px 1.5px 2.6px;
+                        }
                     }
                 }
             }
 
-            .pokemon-stats {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
+            .pokemon-stats-wrapper {
+                .pokemon-stats {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 5px;
 
-                .stat-tag {
-                    text-transform: capitalize;
+                    .stat-tag {
+                        text-transform: uppercase;
+
+                        padding: 5px;
+                        background-color: beige;
+                        border-radius: 5px;
+                        box-shadow: rgba(0, 0, 0, 0.25) 1.5px 1.5px 2.6px;
+
+                        b {
+                            font-size: 13px;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+                            width: 100%;
+                        }
+                    }
                 }
             }
         }
