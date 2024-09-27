@@ -4,27 +4,52 @@
     .details-page-content {
         width: 70%;
         margin: auto;
-
+        
         display: flex;
         gap: 50px;
-
+        
+        box-shadow: rgba(0, 0, 0, 0.15) 3.5px 3.5px 4.6px;
+        background-color: whitesmoke;
+        
         .pokemon-sprites {
-            border: 1px solid black;
             padding: 50px;
+            margin: auto;
         }
-
+        
         .pokemon-information {
-            border: 1px solid black;
             padding: 50px;
+
+            h1 {
+                text-transform: capitalize;
+                font-weight: 500;
+            }
 
             .pokemon-types {
                 display: flex;
                 gap: 10px;
+
+                .type-tag {
+                    border-radius: 10px;
+                    padding: 5px 10px;
+
+                    box-shadow: rgba(0, 0, 0, 0.15) 1.5px 1.5px 2.6px;
+                    color: aliceblue;
+                    text-transform: capitalize;
+                    
+                    &:hover {
+                        transition: all 0.2s ease-in;
+                        box-shadow: rgba(0, 0, 0, 0.5) 1.5px 1.5px 2.6px;
+                    }
+                }
             }
 
             .pokemon-stats {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
+
+                .stat-tag {
+                    text-transform: capitalize;
+                }
             }
         }
     }

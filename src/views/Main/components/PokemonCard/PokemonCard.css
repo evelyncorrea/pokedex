@@ -17,5 +17,6 @@
 
         color: var(--primary-yellow);
         width: 155px;
+        box-shadow: rgba(0, 0, 0, 0.5) 3.5px 3.5px 4.6px;
     }
 }

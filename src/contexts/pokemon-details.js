@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import { getPokemonByNameOrId } from "../api/poke-api";
 
 const initialState = {
+    isLoading: true,
     pokemonData: {
         id: 0,
         name: "",
@@ -26,7 +27,8 @@ const PokemonDetailsReducer = (state, action) => {
     if(type === TYPES.SET_POKEMON_INFO) {
         return {
             ...state,
-            pokemonData: payload
+            pokemonData: payload,
+            isLoading: false,
         }
     }
 
@@ -38,6 +40,7 @@ export const PokemonDetailsProvider = ({ children }) => {
 
     const fetchPokemonData = async (id) => {
         const data = await getPokemonByNameOrId({ input: id });
+
         dispatch({ 
             type: TYPES.SET_POKEMON_INFO, 
             payload: {

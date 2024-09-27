@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './SearchBar.css';
 import usePokemon from '../../../../contexts/pokemons';
+import { useLocation } from 'react-router-dom';
 
 const SEARCH_TYPES = {
     NAME_OR_ID: 'name/id',
@@ -8,14 +9,34 @@ const SEARCH_TYPES = {
 }
 
 export function SearchBar() {
-    const { fetchAllPokemons, fetchPokemonByNameOrId, fetchPokemonByType, setSearchData, clearPagination } = usePokemon();
+    const { state } = useLocation();
+
+    const { 
+        fetchAllPokemons,
+        fetchPokemonByNameOrId,
+        fetchPokemonByType,
+        setSearchData,
+        clearPagination
+    } = usePokemon();
+
     const [searchType, setSearchType] = useState('name/id');
     const [searchInput, setSearchInput] = useState('');
     const [placeholder, setPlaceholder] = useState('name or number');
 
+    
     useEffect(() => {
+        async function loadSearchFromNav() {
+            if(state?.searchType && state?.searchInput) {
+                setSearchInput(state.searchInput);
+                setSearchType(state.searchType);
+    
+                return await fetchPokemonByType(state.searchInput);
+            }
+        }
+
+        loadSearchFromNav();
         fetchAllPokemons();
-    }, []);
+    }, [state]);
 
     const search = () => {
         clearPagination();

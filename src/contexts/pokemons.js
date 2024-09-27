@@ -88,7 +88,6 @@ export const PokemonProvider = ({ children }) => {
 
     const fetchAllPokemons = async (offset) => {
         const data = await getAllPokemons({ offset, limit: state.limit });
-        console.log('called fetchAllPokemons', {offset: state.offset, limit: state.limit })
 
         if(data?.error) {
             console.error(data.error)
@@ -142,14 +141,12 @@ export const PokemonProvider = ({ children }) => {
     }
 
     const paginate = async (paginationType) => {
-        let newPage = state.currentPage; 
-        console.log('called paginate');
+        let newPage = state.currentPage;
 
         if(paginationType === 'previous') {
             newPage -= 1;
         } else if(paginationType === 'next') {
             newPage += 1;
-            console.log('called pagination next');
         }
         
         dispatch({ type: TYPES.CHANGE_PAGE, payload: { page: newPage }})
