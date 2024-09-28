@@ -16,6 +16,7 @@ const initialState = {
 };
 
 const TYPES = {
+    CHANGE_LOADING: 'CHANGE_LOADING',
     SET_POKEMON_INFO: 'SET_POKEMON_INFO'
 };
 
@@ -32,6 +33,13 @@ const PokemonDetailsReducer = (state, action) => {
         }
     }
 
+    if(type === TYPES.CHANGE_LOADING) {
+        return {
+            ...state,
+            isLoading: payload
+        }
+    }
+
     return state;
 }
 
@@ -39,6 +47,8 @@ export const PokemonDetailsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(PokemonDetailsReducer, initialState);
 
     const fetchPokemonData = async (id) => {
+        dispatch({ type: TYPES.CHANGE_LOADING, payload: true })
+        
         const data = await getPokemonByNameOrId({ input: id });
 
         dispatch({ 

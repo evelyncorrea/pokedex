@@ -3,9 +3,14 @@ import { PokemonCard } from './components/PokemonCard';
 import './main.css';
 import usePokemon from '../../contexts/pokemons';
 import { Pagination } from './components/Pagination';
+import { useEffect } from 'react';
 
 export function MainPage() {
     const { pokemons, isLoading } = usePokemon();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [pokemons])
 
     return (
         <div className='main-page-wrapper'>

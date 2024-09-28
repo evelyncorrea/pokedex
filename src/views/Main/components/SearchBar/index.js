@@ -11,7 +11,7 @@ const SEARCH_TYPES = {
 export function SearchBar() {
     const { state } = useLocation();
 
-    const { 
+    const {
         fetchAllPokemons,
         fetchPokemonByNameOrId,
         fetchPokemonByType,
@@ -25,16 +25,18 @@ export function SearchBar() {
 
     
     useEffect(() => {
-        async function loadSearchFromNav() {
-            if(state?.searchType && state?.searchInput) {
+        if(state.searchInput) {
+            async function loadSearchFromNav() {
                 setSearchInput(state.searchInput);
                 setSearchType(state.searchType);
     
                 return await fetchPokemonByType(state.searchInput);
             }
+    
+            loadSearchFromNav();
+            return;
         }
 
-        loadSearchFromNav();
         fetchAllPokemons();
     }, [state]);
 

@@ -36,7 +36,7 @@ const PokemonReducer = (state, action) => {
     if(type === TYPES.CHANGE_LOADING) {
         return {
             ...state,
-            isLoading: payload.isLoading
+            isLoading: payload
         }
     }
 
@@ -87,6 +87,8 @@ export const PokemonProvider = ({ children }) => {
     }
 
     const fetchAllPokemons = async (offset) => {
+        dispatch({ type: TYPES.CHANGE_LOADING, payload: true })
+        console.log('ta chamando o fetch all')
         const data = await getAllPokemons({ offset, limit: state.limit });
 
         if(data?.error) {
@@ -98,6 +100,8 @@ export const PokemonProvider = ({ children }) => {
     }
 
     const fetchPokemonByNameOrId = async (input) => {
+        dispatch({ type: TYPES.CHANGE_LOADING, payload: true })
+
         const data = await getPokemonByNameOrId({ input });
 
         if(data?.error) {
@@ -117,9 +121,13 @@ export const PokemonProvider = ({ children }) => {
     }
 
     const fetchPokemonByType = async (input) => {
+        console.log('entrou no fech by type')
+        dispatch({ type: TYPES.CHANGE_LOADING, payload: true })
+
         const data = await getPokemonByType({ input });
 
         if(data?.error) {
+            console.log('deu erro?')
             console.error(data.error)
             return dispatch({ type: TYPES.UPDATE_DATA, payload: { data: [] }});
         }
@@ -127,6 +135,7 @@ export const PokemonProvider = ({ children }) => {
         const parsedData = data.pokemon.map(mon => mon.pokemon);
 
         if(parsedData.length > state.limit) {
+            console.log('entrou no parsedData')
             return dispatch({ 
                 type: TYPES.UPDATE_DATA, 
                 payload: { 
@@ -137,10 +146,14 @@ export const PokemonProvider = ({ children }) => {
             });
         }
 
+        console.log('passou de tudo no serach by type')
+
         dispatch({ type: TYPES.UPDATE_DATA, payload: { data: parsedData, totalResults: data.count }});
     }
 
     const paginate = async (paginationType) => {
+        dispatch({ type: TYPES.CHANGE_LOADING, payload: true })
+        console.log('entrou no paginate')
         let newPage = state.currentPage;
 
         if(paginationType === 'previous') {
@@ -172,9 +185,6 @@ export const PokemonProvider = ({ children }) => {
         if(state.searchType === SEARCH_TYPES.ALL) return await fetchAllPokemons(state.offset + state.limit)
         if(state.searchType === SEARCH_TYPES.NAME_ID) return await fetchPokemonByNameOrId(state.searchInput)
         if(state.searchType === SEARCH_TYPES.TYPE) return await fetchPokemonByType(state.searchInput)
-
-            
-        window.scrollTo(0, 0)
     }
 
     const value = {
