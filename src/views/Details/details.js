@@ -21,6 +21,7 @@ export function DetailsPage() {
 
     useEffect(() => {
         fetchPokemonData(id);
+        window.scrollTo(0, 0);
     }, [])
 
     useEffect(() => {

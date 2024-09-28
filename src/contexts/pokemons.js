@@ -172,6 +172,9 @@ export const PokemonProvider = ({ children }) => {
         if(state.searchType === SEARCH_TYPES.ALL) return await fetchAllPokemons(state.offset + state.limit)
         if(state.searchType === SEARCH_TYPES.NAME_ID) return await fetchPokemonByNameOrId(state.searchInput)
         if(state.searchType === SEARCH_TYPES.TYPE) return await fetchPokemonByType(state.searchInput)
+
+            
+        window.scrollTo(0, 0)
     }
 
     const value = {
