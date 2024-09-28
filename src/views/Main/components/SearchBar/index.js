@@ -25,7 +25,7 @@ export function SearchBar() {
 
     
     useEffect(() => {
-        if(state.searchInput) {
+        if(state?.searchInput && state?.searchType) {
             async function loadSearchFromNav() {
                 setSearchInput(state.searchInput);
                 setSearchType(state.searchType);
