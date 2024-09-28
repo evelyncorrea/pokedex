@@ -5,12 +5,12 @@ import ErrorPage from "./Error";
 
 export const router = createBrowserRouter([
     {
-        path: '/',
+        path: '/pokedex/',
         element: <MainPage />,
         errorElement: <ErrorPage />
     },
     {
-        path: '/pokemon/:id',
+        path: '/pokedex/pokemon/:id',
         element: <DetailsPage />,
         errorElement: <ErrorPage />
     }
