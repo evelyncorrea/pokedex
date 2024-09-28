@@ -62,7 +62,7 @@ export function DetailsPage() {
     }
 
     const redirectToTypeSearch = (type) => {
-        navigate('/', { state: { searchType: 'type', searchInput: type }});
+        navigate('/pokedex/', { state: { searchType: 'type', searchInput: type }});
     }
 
     return (

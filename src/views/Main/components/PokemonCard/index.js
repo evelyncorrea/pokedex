@@ -10,7 +10,7 @@ export function PokemonCard({ pokeName, pokeUrl }) {
     const pokeImage = `${pokeImageBaseURL}${pokeId}.png`;
     
     const redirectTo = () => {
-        navigate(`/pokemon/${pokeId}`);
+        navigate(`/pokedex/pokemon/${pokeId}`);
     }
 
     return (
